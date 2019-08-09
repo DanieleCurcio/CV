@@ -1,0 +1,95 @@
+/**
+ * Function für das Projekt TicTacToe
+ * Version 0.2
+ *
+ * Datum: 03.07.2019 Letzte Anpassung 09.08.2019
+ * @author Daniele Curcio
+ **/
+package tic_tac_toe;
+
+import javax.swing.JOptionPane;
+
+public class Function {
+	
+	static int[][] field = {{0, 0, 0}, {0, 0, 0}, {0, 0, 0}};
+	public static String player = "";
+	
+	static void fieldinput(int counterABC, int counter123) {
+		if ("X".equals(player)) {
+			field[counterABC][counter123] = 1;
+		} else if ("o".equalsIgnoreCase(player)){
+			field[counterABC][counter123] = 2;
+		}
+	}
+
+	static boolean fieldfull() {
+		int counter1, counter2;
+		counter1 = 0;
+		counter2 = 0;
+		while (counter1 <= 2) {
+			if (field[counter1][counter2] == 0) {
+				return false;
+			} else {
+				counter2++;
+				if (counter2 > 2) {
+					counter2 = 0;
+					counter1++;
+				}
+			}  	
+		}
+		JOptionPane.showMessageDialog(null, "Unentschieden.");
+		return true;
+	}
+	
+	static boolean win() {
+		int counterArray, x;
+		counterArray = 0;
+		x = 0;
+		if ("X".equalsIgnoreCase(player)) {
+			x = 1;
+		} else if ("O".equalsIgnoreCase(player)) {
+			x = 2;
+		}
+		while (counterArray <= 2) {
+			if (field[counterArray][0] == x && field[counterArray][1] == x && field[counterArray][2] == x) {
+				JOptionPane.showMessageDialog(null, "Spieler " + player + " hat gewonnen");
+				return true;
+			} else if (field[0][counterArray] == x && field[1][counterArray] == x && field[2][counterArray] == x) {
+				JOptionPane.showMessageDialog(null, "Spieler " + player + " hat gewonnen");
+				return true;
+			} else {
+				counterArray++;
+			}
+		}
+		if (field[0][0] == x && field[1][1] == x && field[2][2] == x) {
+			JOptionPane.showMessageDialog(null, "Spieler " + player + " hat gewonnen");
+			return true;
+		} else if (field[0][2] == x && field[1][1] == x && field[2][0] == x) {
+			JOptionPane.showMessageDialog(null, "Spieler " + player + " hat gewonnen");
+			return true;
+		}
+		return false;
+	}
+	
+	static void playerSwap() {
+		if ("X".equalsIgnoreCase(player)) {
+			player = "O";
+		} else if("O".equalsIgnoreCase(player)) {
+			player = "X";
+		}
+	}
+	
+	static void reset() {
+		int counter1, counter2;
+		counter1 = 0;
+		counter2 = 0;
+		while (counter1 <= 2) {
+			field[counter1][counter2] = 0;
+			counter2++;
+			if (counter2 > 2) {
+				counter2 = 0;
+				counter1++;
+			}
+		}
+	}
+}
