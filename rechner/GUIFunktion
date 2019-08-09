@@ -2,7 +2,7 @@
  * GUIFunktionen für das Projekt Rechner
  * Version 0.3
  *
- * Datum: 07.08.2019 Letzte Anpassung 07.08.2019
+ * Datum: 07.08.2019 Letzte Anpassung 09.08.2019
  * @author Daniele Curcio
  **/
 
@@ -20,9 +20,13 @@ import javax.swing.JLabel;
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 
+/* Enthält sämtliche Funktionen für die Tasten des GUIs sowie des restlichen Interface.
+ */
+
 public class GUIFunktion {
 	
-	public JTextField schreiben(int xKoordinate, int yKoordinate, int breite, int hoehe, int borderT, int borderL, int borderB, int borderR) {
+	public JTextField schreiben(int xKoordinate, int yKoordinate, int breite,  int hoehe, 
+	                            int borderT,     int borderL,     int borderB, int borderR) {
 		JTextField bau = new JTextField();
 		bau.setBounds(xKoordinate, yKoordinate, breite, hoehe);
 		bau.setHorizontalAlignment(SwingConstants.RIGHT);
@@ -43,7 +47,8 @@ public class GUIFunktion {
 		return bau;
 	}
 	
-	public JLabel text(int xKoordinate, int yKoordinate, int breite, int hoehe, int borderT, int borderL, int borderB, int borderR) {
+	public JLabel text(int xKoordinate, int yKoordinate, int breite,  int hoehe,
+	                   int borderT,     int borderL,     int borderB, int borderR) {
 		JLabel bau = new JLabel();
 		bau.setBounds(xKoordinate, yKoordinate, breite, hoehe);
 		bau.setHorizontalAlignment(SwingConstants.RIGHT);
