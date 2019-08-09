@@ -1,0 +1,39 @@
+/**
+ * MainTICTACTOE für das Projekt TicTacToe
+ * Version 0.2
+ *
+ * Datum: 16.07.2019 Letzte Anpassung 09.08.2019
+ * @author Daniele Curcio
+ **/
+package tic_tac_toe;
+
+import javax.swing.JOptionPane;
+
+public class MainTICTACTOE{
+	
+	static String[] options  = {"Ja", "Nein"};
+	static String[] options2 = {"X", "O"};
+	
+	static GUIPlayfield playfield;;
+	
+	public static void main(String[] args) {
+		top();
+	}
+	static void top() {
+			int choice = JOptionPane.showOptionDialog(null, "Wollen sie spielen?", "TICTACTOE", JOptionPane.YES_NO_OPTION,
+			                                          JOptionPane.DEFAULT_OPTION, null, options,  options[1]);	
+			if (choice == 0) {
+				int choice2 = JOptionPane.showOptionDialog(null, "Wer beginnt?",   "TICTACTOE", JOptionPane.YES_NO_OPTION, 
+				                                           JOptionPane.DEFAULT_OPTION, null, options2, options2[1]);	
+					if (choice2 == 0) {
+						playfield       = new GUIPlayfield();
+						Function.player = "X";
+					} else {
+						playfield       = new GUIPlayfield();
+						Function.player = "O";
+					}
+			} else {
+				System.exit(0);
+			}
+	}
+}
