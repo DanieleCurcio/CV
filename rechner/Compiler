@@ -8,20 +8,24 @@
 
 package rechner;
 
+/* Der Compiler rechnet mit einem String Array das gewünschte Ergebnis aus, selbst mit komplexeren Rechnungen
+ * die Klammern verwenden werden korrekt ausgerechnet.
+ */
+
 public class Compiler {
 
 	String[] rechnung;
 	int      stelle = 0;
 	
-	double ausrechnen(String[] eingabe) { // Funktion die dazu da ist den erhaltenen String global zu machen und das Ergebnis zu  liefern
+	double ausrechnen(String[] eingabe) {
 		rechnung   = new String[eingabe.length];
 		rechnung   = eingabe;
 		double erg = term();
 		return erg;
 	}
 	
-	private double term() {      // Erste Funktion die aufgerufen wird um zu rechnen und 
-		double wert = summand(); // als letztes ausgeführt damit die Punktrechnungen als letztes ausgerechnet werden
+	private double term() {
+		double wert = summand();
 		while (nextIs("+") || nextIs("-")) {
 			if (nextIs("+")) {
 				stelle = stelle + 2;
@@ -34,13 +38,13 @@ public class Compiler {
 		return wert;
 	}
 
-	private double summand() { // Zweite Funktion die aufgerufen wird und dafür sorgt das Strichrechnungen zuerst ausgeführt werden
+	private double summand() {
 		double wert = faktor();
 		while (nextIs("*") || nextIs("/")) {
 			if (nextIs("*")) {
 				stelle = stelle + 2;
 				wert = wert * faktor();
-			} else {           // if (nextIs("/"))
+			} else {
 				stelle = stelle + 2;
 				wert = wert / faktor();
 			}
@@ -48,9 +52,9 @@ public class Compiler {
 		return wert;
 	}
 
-	private double faktor() { // Dritte Funktion die einen neuen Term erzeugt sobald es eine Rechnung mit einer Klammer hat 
-		double wert = 0;      // und diese priorisiert wird
-		if (rechnung[stelle].matches("[-0-9.]+")) { // kontrolliert ob es eine Zahl ist inklusive Dezimal und negativ
+	private double faktor() {
+		double wert = 0;
+		if (rechnung[stelle].matches("[-0-9.]+")) {
 			wert = (Double.parseDouble(rechnung[stelle]));
 			return wert;
 		}
@@ -64,7 +68,7 @@ public class Compiler {
 		return wert;
 	}
 
-	private boolean nextIs(String next) { // kontrolliert ob welches die drauffolgende Stelle ist
+	private boolean nextIs(String next) {
 		return (rechnung.length > stelle + 1 &&
 				next.equals(rechnung[stelle + 1]));
 	}
