@@ -1,0 +1,83 @@
+/**
+ * GUIPlayfield für das Projekt TicTacToe
+ * Version 0.2
+ *
+ * Datum: 16.07.2019 Letzte Anpassung 09.08.2019
+ * @author Daniele Curcio
+ **/
+package tic_tac_toe;
+
+import java.awt.Color;
+import javax.swing.JButton;
+import javax.swing.JFrame;
+
+@SuppressWarnings("serial")
+public class GUIPlayfield extends JFrame {
+	
+	private JButton buttonA1;
+	private JButton buttonA2;
+	private JButton buttonA3;
+	private JButton buttonB1;
+	private JButton buttonB2;
+	private JButton buttonB3;
+	private JButton buttonC1;
+	private JButton buttonC2;
+	private JButton buttonC3;
+	private JButton exit;
+	private JButton restart;
+	
+	GUIFunciton guifunktionen = new GUIFunciton();
+	
+	public GUIPlayfield() {
+		setTitle("TICTACTOE");
+		setSize(600, 701);
+		setLayout(null);
+		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		setResizable(false);
+		getContentPane().setBackground(Color.WHITE);
+		
+		Function.reset();
+		initComponents();
+		
+		add(buttonA1);
+		add(buttonA2);
+		add(buttonA3);
+		add(buttonB1);
+		add(buttonB2);
+		add(buttonB3);
+		add(buttonC1);
+		add(buttonC2);
+		add(buttonC3);
+		add(exit);
+		add(restart);
+		
+		setVisible(true);
+		setLocationRelativeTo(null);
+	}
+	
+	private void initComponents() {
+		int quader   = 200;
+		int border   = 5;
+		int distance = 200;
+		int boundX1  = 0;
+		int boundX2  = boundX1 + distance;
+		int boundX3  = boundX2 + distance;
+		int boundY1  = 0;
+		int boundY2  = boundY1 + distance;
+		int boundY3  = boundY2 + distance;
+		
+		buttonA1 = guifunktionen.playfieldButton(border,      0,      0, border, boundX1, boundY3, quader, quader, 0, 0);
+		buttonA2 = guifunktionen.playfieldButton(border,      0, border, border, boundX1, boundY2, quader, quader, 0, 1);
+		buttonA3 = guifunktionen.playfieldButton(     0,      0, border, border, boundX1, boundY1, quader, quader, 0, 2);
+		buttonB1 = guifunktionen.playfieldButton(border, border,      0, border, boundX2, boundY3, quader, quader, 1, 0);
+		buttonB2 = guifunktionen.playfieldButton(border, border, border, border, boundX2, boundY2, quader, quader, 1, 1);
+		buttonB3 = guifunktionen.playfieldButton(     0, border, border, border, boundX2, boundY1, quader, quader, 1, 2);
+		buttonC1 = guifunktionen.playfieldButton(border, border,      0,      0, boundX3, boundY3, quader, quader, 2, 0);
+		buttonC2 = guifunktionen.playfieldButton(border, border, border,      0, boundX3, boundY2, quader, quader, 2, 1);
+		buttonC3 = guifunktionen.playfieldButton(     0, border, border,      0, boundX3, boundY1, quader, quader, 2, 2);
+		
+		exit     = guifunktionen.exit("Beenden", 350, 613, 100, 50);
+
+		restart  = guifunktionen.restart("Neustart", 150, 613, 100, 50);
+	}
+}
