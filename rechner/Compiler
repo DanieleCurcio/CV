@@ -1,0 +1,71 @@
+/**
+ * Compiler für das Projekt Rechner
+ * Version 0.3
+ *
+ * Datum: 31.07.2019 Letzte Anpassung 08.08.2019
+ * @author Daniele Curcio
+ **/
+
+package rechner;
+
+public class Compiler {
+
+	String[] rechnung;
+	int      stelle = 0;
+	
+	double ausrechnen(String[] eingabe) { // Funktion die dazu da ist den erhaltenen String global zu machen und das Ergebnis zu  liefern
+		rechnung   = new String[eingabe.length];
+		rechnung   = eingabe;
+		double erg = term();
+		return erg;
+	}
+	
+	private double term() {      // Erste Funktion die aufgerufen wird um zu rechnen und 
+		double wert = summand(); // als letztes ausgeführt damit die Punktrechnungen als letztes ausgerechnet werden
+		while (nextIs("+") || nextIs("-")) {
+			if (nextIs("+")) {
+				stelle = stelle + 2;
+				wert = wert + summand();
+			} else {             // if (nextIs("-"))
+				stelle = stelle + 2;
+				wert = wert - summand();
+			}
+		}
+		return wert;
+	}
+
+	private double summand() { // Zweite Funktion die aufgerufen wird und dafür sorgt das Strichrechnungen zuerst ausgeführt werden
+		double wert = faktor();
+		while (nextIs("*") || nextIs("/")) {
+			if (nextIs("*")) {
+				stelle = stelle + 2;
+				wert = wert * faktor();
+			} else {           // if (nextIs("/"))
+				stelle = stelle + 2;
+				wert = wert / faktor();
+			}
+		}
+		return wert;
+	}
+
+	private double faktor() { // Dritte Funktion die einen neuen Term erzeugt sobald es eine Rechnung mit einer Klammer hat 
+		double wert = 0;      // und diese priorisiert wird
+		if (rechnung[stelle].matches("[-0-9.]+")) { // kontrolliert ob es eine Zahl ist inklusive Dezimal und negativ
+			wert = (Double.parseDouble(rechnung[stelle]));
+			return wert;
+		}
+		if (rechnung[stelle].equals("(")) {
+			stelle++;
+			wert = term();
+		}
+		if (nextIs(")")) {
+			stelle++;
+		}
+		return wert;
+	}
+
+	private boolean nextIs(String next) { // kontrolliert ob welches die drauffolgende Stelle ist
+		return (rechnung.length > stelle + 1 &&
+				next.equals(rechnung[stelle + 1]));
+	}
+}
