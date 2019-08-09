@@ -1,0 +1,117 @@
+/**
+ * GUIFunktionen für das Projekt Rechner
+ * Version 0.3
+ *
+ * Datum: 07.08.2019 Letzte Anpassung 07.08.2019
+ * @author Daniele Curcio
+ **/
+
+package rechner;
+
+import java.awt.Color;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
+
+import javax.swing.BorderFactory;
+import javax.swing.JButton;
+import javax.swing.JLabel;
+import javax.swing.JTextField;
+import javax.swing.SwingConstants;
+
+public class GUIFunktion {
+	
+	public JTextField schreiben(int xKoordinate, int yKoordinate, int breite, int hoehe, int borderT, int borderL, int borderB, int borderR) {
+		JTextField bau = new JTextField();
+		bau.setBounds(xKoordinate, yKoordinate, breite, hoehe);
+		bau.setHorizontalAlignment(SwingConstants.RIGHT);
+		bau.setBorder(BorderFactory.createMatteBorder(borderT, borderL, borderB, borderR, Color.black));
+		bau.addKeyListener(new KeyAdapter() {
+			public void keyTyped(KeyEvent e) {
+				char c = e.getKeyChar();
+				String s = Character.toString(c);
+				if (e.getKeyChar() == KeyEvent.VK_ENTER) {
+					gleich();
+				} else if (!s.matches("^[0-9+-/*().]*$")) { 
+						e.consume();
+				} else {
+					GUI.rechnung = GUI.rechnung + s;
+				}
+			}
+		});
+		return bau;
+	}
+	
+	public JLabel text(int xKoordinate, int yKoordinate, int breite, int hoehe, int borderT, int borderL, int borderB, int borderR) {
+		JLabel bau = new JLabel();
+		bau.setBounds(xKoordinate, yKoordinate, breite, hoehe);
+		bau.setHorizontalAlignment(SwingConstants.RIGHT);
+		bau.setBorder(BorderFactory.createMatteBorder(borderT, borderL, borderB, borderR, Color.black));
+		bau.setOpaque(true);
+		bau.setBackground(Color.WHITE);
+		return bau;
+	}
+	
+	public JButton tasten(int xKoordinate, int yKoordinate, String zeichen) {
+		JButton bau = new JButton();
+		bau.setBounds(xKoordinate, yKoordinate, GUI.xTaste, GUI.yTaste);
+		bau.setText(zeichen);
+		bau.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				GUI.rechnung = GUI.rechnung + zeichen;
+				GUI.eingabe.setText(GUI.rechnung);
+			}
+		});
+		return bau;
+	}
+	
+	public JButton rechne(int xKoordinate, int yKoordinate, String zeichen) {
+		JButton bau = new JButton();
+		bau.setBounds(xKoordinate, yKoordinate, GUI.xTaste, GUI.yTaste);
+		bau.setText(zeichen);
+		bau.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				gleich();
+			}
+		});
+		return bau;
+	}
+	
+	public JButton leeren(int xKoordinate, int yKoordinate, String zeichen) {
+		JButton bau = new JButton();
+		bau.setBounds(xKoordinate, yKoordinate, GUI.xTaste, GUI.yTaste);
+		bau.setText(zeichen);
+		bau.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				GUI.rechnung = "";
+				GUI.eingabe.setText(GUI.rechnung);
+			}
+		});
+		return bau;
+	}
+	
+	public JButton answer(int xKoordinate, int yKoordinate, String zeichen) {
+		JButton bau = new JButton();
+		bau.setBounds(xKoordinate, yKoordinate, GUI.xTaste, GUI.yTaste);
+		bau.setText(zeichen);
+		bau.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				if (!GUI.antwort.equals("Rechnung nicht möglich")) {
+					GUI.rechnung = GUI.rechnung + GUI.antwort;
+					GUI.eingabe.setText(GUI.rechnung);
+				}
+			}
+		});
+		return bau;
+	}
+	
+	public void gleich() {
+		Verbindung verbindung = new Verbindung();
+		GUI.rechnung = GUI.eingabe.getText();
+		GUI.antwort = verbindung.ergebnis(GUI.rechnung);
+		GUI.ausgabe.setText(GUI.rechnung + " = " + GUI.antwort);
+		GUI.rechnung = "";
+		GUI.eingabe.setText(GUI.rechnung);
+	}
+}
