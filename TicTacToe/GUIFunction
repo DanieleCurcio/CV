@@ -1,0 +1,81 @@
+/**
+ * GUIFunction für das Projekt TicTacToe
+ * Version 0.2
+ *
+ * Datum: 16.07.2019 Letzte Anpassung 09.08.2019
+ * @author Daniele Curcio
+ **/
+package tic_tac_toe;
+
+import java.awt.Color;
+import java.awt.Font;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+
+import javax.swing.BorderFactory;
+import javax.swing.JButton;
+import javax.swing.JFrame;
+import javax.swing.UIManager;
+
+@SuppressWarnings("serial")
+public class GUIFunciton extends JFrame{
+
+	public JButton playfieldButton (int borderTOP, int borderLEFT, int borderBOTTOM, int borderRIGHT, int boundX, int boundY, int boundWIDTH, int boundHEIGHT, int fieldX, int fieldY) {
+		Font font = new Font("Arial", Font.ROMAN_BASELINE, 200); 
+		JButton button = new JButton();
+		button.setBackground(Color.WHITE);
+		button.setBorder(BorderFactory.createMatteBorder(borderTOP, borderLEFT, borderBOTTOM, borderRIGHT, Color.black));
+		button.setFont(font);
+		button.setBounds(boundX, boundY, boundWIDTH, boundHEIGHT);
+		button.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				button.setText(Function.player);
+				button.setEnabled(false);
+				if (!button.isEnabled()) {
+					if ("X".equals(Function.player)) {
+						UIManager.put("Button.disabledText", Color.RED);	
+					} else {
+						UIManager.put("Button.disabledText", Color.BLUE);
+					}
+				}
+				Function.fieldinput(fieldX, fieldY);
+				if (Function.win()) {
+					MainTICTACTOE.playfield.dispose();
+					MainTICTACTOE.top();
+					return;
+				} else if (Function.fieldfull()) {
+					MainTICTACTOE.playfield.dispose();
+					MainTICTACTOE.top();
+
+					return;
+				}
+				Function.playerSwap();
+			}
+		});
+		return button;
+	}
+	
+	public JButton exit(String text, int boundX, int boundY, int boundWIDTH, int boundHEIGHT) {
+		JButton button = new JButton(text);
+		button.setBounds(boundX, boundY, boundWIDTH, boundHEIGHT);
+		button.addActionListener(new ActionListener () {
+			public void actionPerformed(ActionEvent e) {
+				MainTICTACTOE.playfield.dispose();
+				MainTICTACTOE.top();
+			}
+		});
+		return button;
+	}
+	
+	public JButton restart(String text, int boundX, int boundY, int boundWIDTH, int boundHEIGHT) {
+		JButton button = new JButton(text);
+		button.setBounds(boundX, boundY, boundWIDTH, boundHEIGHT);
+		button.addActionListener(new ActionListener () {
+			public void actionPerformed(ActionEvent e) {
+				dispose();
+				MainTICTACTOE.top();
+			}
+		});
+		return button;
+	}
+}
