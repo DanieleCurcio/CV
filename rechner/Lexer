@@ -1,0 +1,109 @@
+/**
+ * Lexer für das Projekt Rechner
+ * Version 0.3
+ *
+ * Datum: 17.07.2019 Letzte Anpassung 08.08.2019
+ * @author Daniele Curcio
+ **/
+
+package rechner;
+
+public class Lexer {
+	
+	String   eingabe;
+	String[] lexer             = new String[0];;
+	String[] platzhalter       = new String[0];;
+	int      zaehlerEingabe    = 0;
+	int      anfangString      = 0;
+	int      endeString        = 0;
+	int      zaehlerLexer      = 0;
+	int      lexerStringLaenge = 0;
+	
+	String[] lexer(String rechnung) {
+		eingabe           = new String(rechnung);
+		eingabe           = eingabe + " ";                      // der Abstand ist nötig um einen IndexOutOfBoundException zu verhindern.
+		if (eingabe.charAt(zaehlerEingabe) == '-') {            // kontrolliert ob die Zahl negativ beginnt
+			zahlAuswerten();
+		}
+		while (zaehlerEingabe < eingabe.length()) {             // Schleife um jede einzelne Position zu kontrollieren
+			if (eingabe.charAt(zaehlerEingabe) == '+' ||        // kontrolliert Operatoren und Klammer, Ausnahme ist das Minuszeichen
+				eingabe.charAt(zaehlerEingabe) == '*' || 
+				eingabe.charAt(zaehlerEingabe) == '/' || 
+				eingabe.charAt(zaehlerEingabe) == '(' || 
+				eingabe.charAt(zaehlerEingabe) == ')') {
+					zeichenAuswerten();
+			} else if (zahl()) {                                // kontrolliert ob es eine Zahl ist und gibt diese aus
+				zahlAuswerten();
+			} else if (eingabe.charAt(zaehlerEingabe) == '-') { // kontrolliert ob es eine negative Zahl oder ein Operator ist
+				if (eingabe.charAt(zaehlerEingabe - 1) == '(') {	
+					zahlAuswerten();
+				} else {
+					zeichenAuswerten();
+				} 
+			} else if (eingabe.charAt(zaehlerEingabe) == ' ') { // beendet die Schlaufe, sonst würde sie endlos laufen,
+				break;                                          // wegen dem Leerzeichen das nicht bearbeitet wird
+			} else {                                            // Fehlermeldung an das System sollten ungültige Zeichen dabei sein,
+				System.out.println("fehler");                   // es wird ein leerer String Array geliefert
+				return lexer = null;
+			}
+		}
+		return lexer;
+	}
+
+	private void zeichenAuswerten() { // definiert ein Zeichen
+		anfangString = zaehlerEingabe;
+		zaehlerEingabe++;
+		endeString   = zaehlerEingabe;
+		erzeugenString();
+	}
+
+	private void zahlAuswerten() { // definiert die Zahl mit allen Stellen
+		anfangString = zaehlerEingabe;
+		zaehlerEingabe++;
+		while (zahl()) {
+			zaehlerEingabe++;
+		}
+		if (eingabe.charAt(zaehlerEingabe) == '.') { //das System erlaubt genau einen Punkt mit der Bedinung es folgt vor und nach dem Punkt eine Zahl
+			zaehlerEingabe++;
+			if (zahl()) {
+				while (zahl()) {
+					zaehlerEingabe++;
+				}
+			} else {
+				zaehlerEingabe--;
+			}
+		}
+		endeString = zaehlerEingabe;
+		erzeugenString();
+	}
+
+	private void erzeugenString() { // erzeugt den String Array lexer und speichert es in einem Platzhalter sobald der Array erweitert wird
+		lexerStringLaenge++;
+		if (lexer.length > 0) {
+			for (int i = 0; i < lexer.length; i++) {
+				platzhalter[i] = lexer[i];
+			}
+		}
+		lexer               = new String[lexerStringLaenge];
+		lexer[zaehlerLexer] = eingabe.substring(anfangString, endeString);
+		if (platzhalter.length > 0) {
+			for (int i = 0; i < platzhalter.length; i++) {
+				lexer[i] = platzhalter[i];
+			} 
+		}
+		platzhalter = new String[lexer.length];
+		zaehlerLexer++;
+	}
+
+	private boolean zahl() { // kontrolliert ob der Char eine Zahl ist
+		int zahlenTest = 0;
+		while (zahlenTest < 10) {
+			char test = Character.forDigit(zahlenTest, 10);
+			if (eingabe.charAt(zaehlerEingabe) == test) {
+				return true;
+			}
+			zahlenTest++;
+		}
+		return false;
+	}
+}
