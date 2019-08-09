@@ -1,0 +1,134 @@
+/**
+ * GUI für das Projekt Rechner
+ * Version 0.3
+ *
+ * Datum: 06.08.2019 Letzte Anpassung 08.08.2019
+ * @author Daniele Curcio
+ **/
+
+package rechner;
+
+import javax.swing.JTextField;
+import javax.swing.JButton;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+
+@SuppressWarnings("serial")
+public class GUI extends JFrame {
+	
+	public static int xTaste      = 50;
+	public static int yTaste      = 40;
+	
+	public static String rechnung = "";
+	public static String antwort  = "";
+	
+	public static JTextField eingabe;
+	public static JLabel ausgabe;
+	
+	private JButton zahlNull;
+	private JButton zahlEins;
+	private JButton zahlZwei;
+	private JButton zahlDrei;
+	private JButton zahlVier;
+	private JButton zahlFuenf;
+	private JButton zahlSechs;
+	private JButton zahlSieben;
+	private JButton zahlAcht;
+	private JButton zahlNeun;
+	private JButton plus;
+	private JButton minus;
+	private JButton geteilt;
+	private JButton mal;
+	private JButton gleich;
+	private JButton punkt;
+	private JButton klammerAuf;
+	private JButton klammerZu;
+	private JButton clear;
+	private JButton answer;
+	
+	private GUIFunktion guifunktion = new GUIFunktion();
+	
+	public GUI() {
+		setTitle("Rechner");
+		setSize(460, 340);
+		setLayout(null);
+		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		setResizable(false);
+		
+		initComponents();
+		
+		add(eingabe);
+		add(ausgabe);
+
+		add(zahlNull);
+		add(zahlEins);
+		add(zahlZwei);
+		add(zahlDrei);
+		add(zahlVier);
+		add(zahlFuenf);
+		add(zahlSechs);
+		add(zahlSieben);
+		add(zahlAcht);
+		add(zahlNeun);
+		
+		add(plus);
+		add(minus);
+		add(geteilt);
+		add(mal);
+		
+		add(gleich);
+		add(punkt);
+		
+		add(klammerAuf);
+		add(klammerZu);
+		
+		add(clear);
+		add(answer);
+		
+		setVisible(true);
+		setLocationRelativeTo(null);
+	}
+
+	private void initComponents() {
+		int x1     = 240; //X-Koordinate um den ganzen Block zu verschieben
+		int x2     = x1 + xTaste;
+		int x3     = x2 + xTaste;
+		int x4     = x3 + xTaste;
+		
+		int y1     = 100; //Y-Koordinaten um den ganzen Block zu verschieben
+		int y2     = y1 + yTaste;
+		int y3     = y2 + yTaste;
+		int y4     = y3 + yTaste;
+		int y5     = y4 + yTaste;
+		
+		int border = 1;
+		
+		ausgabe    = guifunktion.text     (20, 50, 420, 40, 0, border, border, border);
+		eingabe    = guifunktion.schreiben(20, 10, 420, 40, border, border, 0, border);
+		
+		klammerAuf = guifunktion.tasten(x1, y1,  "(");
+		klammerZu  = guifunktion.tasten(x2, y1,  ")");
+		answer     = guifunktion.answer(x3, y1, "AN");
+		clear      = guifunktion.leeren(x4, y1, "CE");
+		
+		zahlSieben = guifunktion.tasten(x1, y2,  "7");
+		zahlAcht   = guifunktion.tasten(x2, y2,  "8");
+		zahlNeun   = guifunktion.tasten(x3, y2,  "9");
+		mal        = guifunktion.tasten(x4, y2,  "*");
+		
+		zahlVier   = guifunktion.tasten(x1, y3,  "4");
+		zahlFuenf  = guifunktion.tasten(x2, y3,  "5");
+		zahlSechs  = guifunktion.tasten(x3, y3,  "6");
+		geteilt    = guifunktion.tasten(x4, y3,  "/");
+		
+		zahlEins   = guifunktion.tasten(x1, y4,  "1");
+		zahlZwei   = guifunktion.tasten(x2, y4,  "2");
+		zahlDrei   = guifunktion.tasten(x3, y4,  "3");
+		minus      = guifunktion.tasten(x4, y4,  "-");
+		
+		zahlNull   = guifunktion.tasten(x1, y5,  "0");
+		punkt      = guifunktion.tasten(x2, y5,  ".");
+		gleich     = guifunktion.rechne(x3, y5,  "=");
+		plus       = guifunktion.tasten(x4, y5,  "+");
+	}
+}
