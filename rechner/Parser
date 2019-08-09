@@ -2,11 +2,14 @@
  * Parser für das Projekt Rechner
  * Version 0.3
  *
- * Datum: 25.07.2019 Letzte Anpassung 08.08.2019
+ * Datum: 25.07.2019 Letzte Anpassung 09.08.2019
  * @author Daniele Curcio
  **/
 
 package rechner;
+
+/* Kontrolliert den erhaltenen String Array und gibt True oder False zurück sollte es keine korrekte Rechnung sein.
+ */
 
 public class Parser {
 	
@@ -14,10 +17,8 @@ public class Parser {
 	int      klammerZaehler = 0;
 	String[] rechnung;
 	
-	boolean parser(String[] eingabe) {               // Oberste Funktion des Parsers. Führt in drei Subroutinen und 
-		rechnung       = new String[eingabe.length]; // gibt entweder ein True oder False zurück, es wird nur die Korrektheit kontrolliert,
-		//lexerZaehler   = 0;                        // nicht wo der Fehler genau liegt.
-		//klammerZaehler = 0;
+	boolean parser(String[] eingabe) {
+		rechnung       = new String[eingabe.length];
 		rechnung       = eingabe;
 		if (rechnung.length == 1 && zahl(rechnung[lexerZaehler])) {
 			return true;
@@ -45,8 +46,8 @@ public class Parser {
 		return true;
 	}
 
-	private boolean korrektheit() { // Die zentralste Subroutine. Kontrolliert was für ein Zeichen der ArrayString beiinhaltet
-		if (operator(rechnung[lexerZaehler])) {  // und kontrolliert die Zeichen davor und dannach.
+	private boolean korrektheit() {
+		if (operator(rechnung[lexerZaehler])) {
 			if (operatorPlus()) {
 				return true;
 			}
@@ -68,29 +69,29 @@ public class Parser {
 		return false;
 	}
 
-	private boolean operatorPlus() { // Kontrolliert ob das Zeichen nach einem Operator kompatibel ist.
+	private boolean operatorPlus() {
 		return (rechnung[lexerZaehler + 1].equals("(") ||
 		        zahl(rechnung[lexerZaehler + 1]));
 	}
 	
-	private boolean zahlPlus() { // Kontrolliert ob das Zeichen nach einer Zahl kompatibel ist.
+	private boolean zahlPlus() {
 		return (rechnung[lexerZaehler + 1].equals("(") ||
 		        rechnung[lexerZaehler + 1].equals(")") ||
 		        operator(rechnung[lexerZaehler + 1]));
 	}
 	
-	private boolean klammerZuPlus() { // Kontrolliert ob das Zeichen nach einer schliessenden Klammer kompatibel ist.
+	private boolean klammerZuPlus() {
 		return (operator(rechnung[lexerZaehler + 1]) || 
 		        rechnung[lexerZaehler + 1].equals("(") || 
 		        rechnung[lexerZaehler + 1].equals(")"));
 	}
 	
-	private boolean klammerOffenPlus() { // Kontrolliert ob das Zeichen nach einer öffnenden Klammer kompatibel ist.
+	private boolean klammerOffenPlus() {
 		return (zahl(rechnung[lexerZaehler + 1]) || 
 		        rechnung[lexerZaehler + 1].equals("("));
 	}
 
-	private boolean rechnungsbeginn() { // kontrolliert ob die Rechnung mit einer Klammer oder einer Zahl beginnt
+	private boolean rechnungsbeginn() {
 		if (rechnung[lexerZaehler].equals("(")) {
 			klammerZaehler++;
 			if(klammerOffenPlus()) {
@@ -104,7 +105,7 @@ public class Parser {
 		return false;
 	}
 	
-	private boolean rechnungsende() { // kontrolliert ob die Rechnung mit einer Klammer oder einer Zahl beginnt
+	private boolean rechnungsende() {
 		if (rechnung[lexerZaehler].equals(")")) {
 			klammerZaehler--;
 			return true;
@@ -121,7 +122,7 @@ public class Parser {
 		        test.equals("/"));
 	}
 	
-	private static boolean zahl(String zahl) { // kontrolliert ob es eine Zahl ist, egal ob sie negativ oder positiv ist
+	private static boolean zahl(String zahl) {
 			return (zahl.matches("[-0-9.]+"));
 	}
 }
